@@ -161,3 +161,5 @@ float pidGetCollective();
 
 const pidAxisData_t * pidGetAxisData(void);
 
+extern FAST_DATA_ZERO_INIT pid_t pid;
+

@@ -78,6 +78,7 @@ typedef struct {
 
 typedef struct {
     uint16_t    headspeed;
+    uint8_t     headspeed_remove_yaw;
     uint8_t     gain;
     uint8_t     p_gain;
     uint8_t     i_gain;

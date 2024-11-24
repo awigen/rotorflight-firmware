@@ -115,6 +115,7 @@ void resetPidProfile(pidProfile_t *pidProfile)
         .rescue.max_setpoint_rate = 300,
         .rescue.max_setpoint_accel = 3000,
         .governor.headspeed = 1000,
+        .governor.headspeed_remove_yaw = 0,
         .governor.gain = 40,
         .governor.p_gain = 40,
         .governor.i_gain = 50,

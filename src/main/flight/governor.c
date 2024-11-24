@@ -116,6 +116,7 @@ typedef struct {
     float           fullHeadSpeed;
     float           targetHeadSpeed;
     float           requestedHeadSpeed;
+    float           headspeedRemoveYaw;
 
     // Proportial headspeeds
     float           fullHeadSpeedRatio;
@@ -384,6 +385,9 @@ static void govUpdateInputs(void)
 
     // Calculate headspeed from filtered motor speed
     gov.actualHeadSpeed = filteredRPM * gov.mainGearRatio;
+
+    // Remove yaw rate from actual headspeed (only correct for CW spinning rotors)
+    gov.actualHeadSpeed -= pid.data[FD_YAW].gyroRate / 6 * gov.headspeedRemoveYaw;
 
     // Calculate HS vs FullHS ratio
     gov.fullHeadSpeedRatio = gov.actualHeadSpeed / gov.fullHeadSpeed;
@@ -1059,6 +1063,7 @@ void governorInitProfile(const pidProfile_t *pidProfile)
         gov.minThrottle = pidProfile->governor.min_throttle / 100.0f;
 
         gov.fullHeadSpeed = constrainf(pidProfile->governor.headspeed, 100, 50000);
+        gov.headspeedRemoveYaw = pidProfile->governor.headspeed_remove_yaw / 100.0f;
 
         gov.headSpeedSpoolupRate  = gov.throttleSpoolupRate  * gov.fullHeadSpeed;
         gov.headSpeedTrackingRate = gov.throttleTrackingRate * gov.fullHeadSpeed;
